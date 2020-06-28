@@ -8,28 +8,38 @@
 <body>
 
 
-    <form method="post" th:action="@{/users/new}">
-        <!--<div th:if="${#fields.hasErrors()}">
-            INCORRECT INFORMATION PROVIDED
-        </div> -->
-        <div th:if="${#fields.hasErrors('*')}" >HEllop</div>
+    <form method="POST" th:action="@{/users/new}" th:object="${user}">
+        <p>
+            <div th:if="${#fields.hasErrors()}">
+                INCORRECT INFORMATION PROVIDED
+            </div>
+        </p>
         <input name="name" type="text" placeholder="Enter name"/>
-        <span th:if="${#fields.hasErrors('name')}">...</span>
+        <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}">...</span>
         <br/>
+
         <input name="surname" type="text" placeholder="Enter surname"/>
-      <!--  <span th:if="${#fields.hasErrors('surname')}">..</span> -->
+        <span th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}">..</span>
         <br/>
+
         <input name="email" type="text" placeholder="Enter email"/>
-      <!--  <span th:if="${#fields.hasErrors('email')}">...</span> -->
+        <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}">...</span>
         <br/>
-        <input name="info" type="text" placeholder="Enter info"/>
-        <br/>
+
         <input name="login" type="text" placeholder="Enter login"/>
-       <!--  <span th:if="${#fields.hasErrors('login')}">..</span> -->
+        <span th:if="${#fields.hasErrors('login')}" th:errors="*{login}">...</span>
         <br/>
+
         <input name="password" type="password" placeholder="Enter password"/>
-        <!-- <span th:if="${#fields.hasErrors('password')}">...</span> -->
+        <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}">...</span>
         <br/>
+
+        <input name="password2" type="password" placeholder="Reenter password"/>
+        <br/>
+
+        <textarea maxlength="500" rows="7" cols="50" placeholder="Info about you"></textarea>
+        <br/>
+
         <input type="submit" value="JMI"/>
     </form>
 </body>

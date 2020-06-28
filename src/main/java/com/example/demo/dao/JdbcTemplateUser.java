@@ -17,48 +17,70 @@ public class JdbcTemplateUser implements IUserDao {
     private JdbcTemplate jdbc;
 
     @Override
-    public User getOne(String login) {
-        return jdbc.queryForObject("SELECT * FROM Users WHERE login=?", new Object[]{login}, new RowMapper<User>() {
-            @Override
-            public User mapRow(ResultSet resultSet, int i) throws SQLException {
-                User user = new User();
-                user.setName( resultSet.getString(1) );
-                user.setSurname( resultSet.getString(2) );
-                user.setLogin( resultSet.getString(3) );
-                user.setPassword( resultSet.getString(4) );
-                user.setEmail( resultSet.getString(5) );
-                user.setInfo( resultSet.getString(6) );
-                user.setCreateAt( resultSet.getDate(7) );
+    public User getOneByLogin(String login) {
+        User user = null;
 
-                return user;
-            }
-        });
+        try {
+            user = jdbc.queryForObject("SELECT * FROM Users WHERE login=?", new Object[]{login}, (resultSet, i) -> {
+                User user1 = new User();
+                user1.setName(resultSet.getString(1));
+                user1.setSurname(resultSet.getString(2));
+                user1.setLogin(resultSet.getString(3));
+                user1.setPassword(resultSet.getString(4));
+                user1.setEmail(resultSet.getString(5));
+                user1.setInfo(resultSet.getString(6));
+                user1.setCreatedAt(resultSet.getDate(7));
+
+                return user1;
+            });
+        } catch (Exception e) {}
+
+        return user;
+    }
+
+    @Override
+    public User getOneByEmail(String email) {
+        User user = null;
+
+        try {
+            user = jdbc.queryForObject("SELECT * FROM Users WHERE email=?", new Object[]{email}, (resultSet, i) -> {
+                User user1 = new User();
+                user1.setName(resultSet.getString(1));
+                user1.setSurname(resultSet.getString(2));
+                user1.setLogin(resultSet.getString(3));
+                user1.setPassword(resultSet.getString(4));
+                user1.setEmail(resultSet.getString(5));
+                user1.setInfo(resultSet.getString(6));
+                user1.setCreatedAt(resultSet.getDate(7));
+
+                return user1;
+            });
+        } catch (Exception e) {}
+
+        return user;
     }
 
     @Override
     public List<User> getAll() {
-        return jdbc.query("SELECT * FROM Users", new RowMapper<User>() {
-                    @Override
-                    public User mapRow(ResultSet resultSet, int i) throws SQLException {
-                        User user = new User();
-                        user.setName( resultSet.getString(1) );
-                        user.setSurname( resultSet.getString(2) );
-                        user.setLogin( resultSet.getString(3) );
-                        user.setPassword( resultSet.getString(4) );
-                        user.setEmail( resultSet.getString(5) );
-                        user.setInfo( resultSet.getString(6) );
-                        user.setCreateAt( resultSet.getDate(7) );
+        return jdbc.query("SELECT * FROM Users", (resultSet, i) -> {
+            User user = new User();
+            user.setName( resultSet.getString(1) );
+            user.setSurname( resultSet.getString(2) );
+            user.setLogin( resultSet.getString(3) );
+            user.setPassword( resultSet.getString(4) );
+            user.setEmail( resultSet.getString(5) );
+            user.setInfo( resultSet.getString(6) );
+            user.setCreatedAt( resultSet.getDate(7) );
 
-                        return user;
-                    }
-                }
+            return user;
+        }
         );
     }
 
     @Override
     public User save(User user) {
         jdbc.update("INSERT INTO Users(name, surname, login, password, email, info, createdAt) VALUES (?, ?, ?, ?, ?, ?, ?)",
-                user.getName(), user.getSurname(), user.getLogin(), user.getPassword(), user.getEmail(), user.getInfo(), user.getCreateAt());
+                user.getName(), user.getSurname(), user.getLogin(), user.getPassword(), user.getEmail(), user.getInfo(), user.getCreatedAt());
 
         return user;
     }

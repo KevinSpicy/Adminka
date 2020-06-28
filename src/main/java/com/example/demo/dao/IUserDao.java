@@ -5,7 +5,8 @@ import com.example.demo.model.User;
 import java.util.List;
 
 public interface IUserDao {
-    User getOne(String login);
+    User getOneByLogin(String login);
+    User getOneByEmail(String email);
     List<User> getAll();
     User save(User user);
     User remove(User user);

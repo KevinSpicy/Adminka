@@ -1,68 +1,51 @@
 package com.example.demo.model;
 
-import org.hibernate.validator.constraints.Length;
-
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.Objects;
 
 public class User {
     @NotBlank(message = "Empty name")
-    @Length(min=1, max=15, message = "Name is too long or is too small")
     private String name;
 
     @NotBlank(message = "Empty surname")
-    @Length(min=1, max=15, message = "Surname is too long or is too small")
     private String surname;
 
     @Email(message = "Incorrect email")
     private String email;
 
-    private String info = "";
+    private String info;
 
     @Pattern(regexp = "[a-zA-z]+\\S*", message = "Incorrect login")
-    @Length(min=1, max=15, message = "Login is too long or is too small")
     private String login;
 
     @Pattern(regexp = "\\S+", message = "Incorrect password")
-    @Length(min=1, max=10, message = "Password is too long or is too small")
     private String password;
 
-    private Date createAt;
-
-   // private boolean adminCredentials = false;
+    private Date createdAt;
 
     public User() {
     }
 
 
-    public User(String name, String surname, String email, String info, String login, String password, Date createAt) {
+    public User(String name, String surname, String email, String info, String login, String password, Date createdAt) {
         this.name = name;
         this.surname = surname;
         this.email = email;
         this.info = info;
         this.login = login;
         this.password = password;
-        this.createAt = createAt;
+        this.createdAt = createdAt;
     }
 
-    public Date getCreateAt() {
-        return createAt;
+    public Date getCreatedAt() {
+        return createdAt;
     }
 
-   /* public boolean isAdmin() {
-        return adminCredentials;
-    }
-
-    public void setAdminCredentials(Boolean adminCredentials) {
-        this.adminCredentials = adminCredentials;
-    }*/
-
-    public void setCreateAt(Date createAt) {
-        this.createAt = createAt;
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 
     public String getLogin() {
